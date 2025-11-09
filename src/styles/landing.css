@@ -1,0 +1,52 @@
+/* Landing page specific styles */
+.hero-section {
+  position: relative;
+  height: 70vh;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.6);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 3rem 1rem;
+}
+
+/* Slides container and individual slides for crossfade */
+.hero-slides {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.55);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.hero-slide.active {
+  opacity: 1;
+}
+
+/* simple responsive tweaks */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 60vh;
+  }
+  .hero-content h1 {
+    font-size: 1.75rem;
+  }
+}

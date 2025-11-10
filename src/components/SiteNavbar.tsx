@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function SiteNavbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">

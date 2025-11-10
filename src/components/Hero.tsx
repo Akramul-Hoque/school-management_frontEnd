@@ -9,10 +9,9 @@ const DEFAULT_BACKGROUNDS: string[] = [
 
 export default function Hero() {
   // ✅ Load any images placed in src/assets/hero
-  const imagesRecord = import.meta.glob("/src/assets/hero/*.{jpg,png,webp}", {
+  const imagesRecord = import.meta.glob("../assets/hero/*.{jpg,png,webp}", {
     eager: true,
-    query: "?url",
-    import: "default",
+    as: "url",
   }) as Record<string, string>;
 
   // ✅ Extract URLs and initialize slides
@@ -28,7 +27,10 @@ export default function Hero() {
     }
 
     let mounted = true;
-    const publicCandidate = "/hero/unnamed.webp";
+    const publicCandidate = new URL(
+      "../assets/hero/unnamed.webp",
+      import.meta.url
+    ).href;
 
     fetch(publicCandidate, { method: "HEAD" })
       .then((r) => {
@@ -58,17 +60,18 @@ export default function Hero() {
     });
   }, [slidesRaw]);
 
-  // ✅ Auto-slide logic
+  // ✅ Auto-slide logic with previous slide tracking
   const [current, setCurrent] = useState(0);
+  const [prev, setPrev] = useState(slidesRaw.length - 1);
 
   useEffect(() => {
     if (slidesRaw.length <= 1) return;
-    const t = setInterval(
-      () => setCurrent((c) => (c + 1) % slidesRaw.length),
-      6000
-    );
+    const t = setInterval(() => {
+      setPrev(current);
+      setCurrent((c) => (c + 1) % slidesRaw.length);
+    }, 5000);
     return () => clearInterval(t);
-  }, [slidesRaw.length]);
+  }, [slidesRaw.length, current]);
 
   // ✅ Render
   return (
@@ -83,7 +86,9 @@ export default function Hero() {
           return (
             <div
               key={idx}
-              className={`hero-slide ${idx === current ? "active" : ""}`}
+              className={`hero-slide ${
+                idx === current ? "active" : idx === prev ? "prev" : ""
+              }`}
               style={{ background: bg }}
             />
           );

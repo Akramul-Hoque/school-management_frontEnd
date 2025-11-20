@@ -43,65 +43,81 @@ const SAMPLE_NOTICES: Notice[] = [
 
 export default function NoticeBoard() {
   return (
-    <section className="notice-board py-5">
+    <section className="notice-board py-5 bg-light">
       <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <h2 className="text-center mb-4">
-              <i className="bi bi-bell me-2"></i>
+        <div className="row mb-5">
+          <div className="col-12 text-center">
+            <h2 className="display-5 fw-bold mb-3">
+              <i className="bi bi-bell-fill text-primary me-3"></i>
               Notice Board
             </h2>
+            <p className="lead text-muted">Stay updated with the latest announcements and events</p>
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-12">
-            <div className="table-responsive notice-table">
-              <table className="table table-hover align-middle">
-                <thead className="table-light">
-                  <tr>
-                    <th style={{ width: "120px" }}>Date</th>
-                    <th style={{ width: "120px" }}>Category</th>
-                    <th>Title & Details</th>
-                    <th style={{ width: "100px" }}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {SAMPLE_NOTICES.map((notice) => (
-                    <tr key={notice.id} className="notice-row">
-                      <td className="text-nowrap">{formatDate(notice.date)}</td>
-                      <td>
-                        <span
-                          className={`badge bg-${getCategoryColor(
-                            notice.category
-                          )}`}
-                        >
-                          {notice.category}
-                        </span>
-                      </td>
-                      <td>
-                        <h6 className="mb-1">{notice.title}</h6>
-                        <p className="mb-0 text-muted small">
-                          {notice.content}
-                        </p>
-                      </td>
-                      <td className="text-center">
-                        <button
-                          className="btn btn-sm btn-outline-primary"
-                          title="Read More"
-                        >
-                          <i className="bi bi-arrow-right"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="text-end mt-3">
-              <a href="#notices" className="btn btn-primary">
-                View All Notices
-              </a>
+        <div className="row justify-content-center">
+          <div className="col-lg-10">
+            <div className="card border-0 shadow-lg overflow-hidden rounded-4">
+              <div className="card-body p-0">
+                <div className="table-responsive">
+                  <table className="table table-hover align-middle mb-0">
+                    <thead className="bg-primary text-white">
+                      <tr>
+                        <th className="py-3 ps-4" style={{ width: "150px" }}>Date</th>
+                        <th className="py-3" style={{ width: "120px" }}>Category</th>
+                        <th className="py-3">Title & Details</th>
+                        <th className="py-3 pe-4 text-end" style={{ width: "100px" }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {SAMPLE_NOTICES.map((notice, index) => (
+                        <tr key={notice.id} className="notice-row" style={{ cursor: "pointer" }}>
+                          <td className="ps-4 py-4">
+                            <div className="d-flex flex-column">
+                              <span className="fw-bold text-dark">{formatDate(notice.date).split(',')[0]}</span>
+                              <span className="text-muted small">{formatDate(notice.date).split(',')[1]}</span>
+                            </div>
+                          </td>
+                          <td>
+                            <span
+                              className={`badge rounded-pill bg-${getCategoryColor(
+                                notice.category
+                              )} bg-opacity-10 text-${getCategoryColor(notice.category)} px-3 py-2`}
+                            >
+                              {notice.category}
+                            </span>
+                          </td>
+                          <td>
+                            <div className="d-flex align-items-center mb-1">
+                              <h6 className="mb-0 fw-bold text-dark">{notice.title}</h6>
+                              {index === 0 && (
+                                <span className="badge bg-danger ms-2 animate-fade-in">NEW</span>
+                              )}
+                            </div>
+                            <p className="mb-0 text-muted small text-truncate" style={{ maxWidth: "400px" }}>
+                              {notice.content}
+                            </p>
+                          </td>
+                          <td className="pe-4 text-end">
+                            <button
+                              className="btn btn-icon btn-light rounded-circle text-primary"
+                              title="Read More"
+                              style={{ width: "36px", height: "36px" }}
+                            >
+                              <i className="bi bi-arrow-right"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className="card-footer bg-white p-3 text-center border-top-0">
+                <a href="#notices" className="btn btn-link text-decoration-none fw-bold">
+                  View All Notices <i className="bi bi-arrow-right ms-1"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>

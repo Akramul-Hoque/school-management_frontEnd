@@ -1,6 +1,23 @@
+import { useEffect, useState } from "react";
+
 export default function SiteNavbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav 
+      className={`navbar navbar-expand-lg fixed-top transition-all duration-300 ${
+        scrolled ? "glass-panel py-2" : "navbar-dark bg-transparent py-3"
+      }`}
+      style={{ transition: "all 0.3s ease" }}
+    >
       <div className="container">
         <div className="d-flex align-items-center">
           <img
@@ -9,7 +26,7 @@ export default function SiteNavbar() {
             className="me-2"
             style={{ height: "40px", width: "auto" }}
           />
-          <a className="navbar-brand fw-bold" href="#">
+          <a className={`navbar-brand fw-bold ${scrolled ? "text-dark" : "text-white"}`} href="#">
             CHJPHS
           </a>
         </div>
@@ -26,24 +43,25 @@ export default function SiteNavbar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#home">
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#about">
-                About
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#admissions">
-                Admissions
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#contact">
-                Contact
+            {["Home", "About", "Admissions", "Contact"].map((item) => (
+              <li className="nav-item" key={item}>
+                <a 
+                  className={`nav-link px-3 fw-medium ${scrolled ? "text-dark" : "text-white"}`} 
+                  href={`#${item.toLowerCase()}`}
+                  style={{ position: "relative" }}
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
+            <li className="nav-item ms-lg-3">
+              <a 
+                className={`btn btn-sm rounded-pill px-4 fw-semibold ${
+                  scrolled ? "btn-primary" : "btn-light text-primary"
+                }`} 
+                href="#login"
+              >
+                Login
               </a>
             </li>
           </ul>
